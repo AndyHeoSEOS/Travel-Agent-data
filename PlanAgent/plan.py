@@ -53,9 +53,10 @@ SEARCH_PYTHON = ROOT / "SearchAgent" / ".venv" / "bin" / "python"
 
 
 def _model_options() -> dict:
-    # 规划、补全、编辑无需长思考，避免 Qwen 默认思考模式拖慢交互。
     model = os.getenv("OPENAI_MODEL", "qwen3.8-27b").lower()
-    if "qwen" in model or "deepseek" in model:
+    if "deepseek" in model:
+        return {"extra_body": {"thinking": {"type": "disabled"}}}
+    if "qwen" in model:
         return {"extra_body": {"enable_thinking": False}}
     return {}
 
